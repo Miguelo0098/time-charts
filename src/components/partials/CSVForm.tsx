@@ -8,11 +8,13 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 const formSchema = z.object({
-  file: z.string(),
+  file: z.instanceof(File),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -22,8 +24,10 @@ export function CSVForm() {
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(values: FormSchema) {
-    console.log(values);
+  async function onSubmit(values: FormSchema) {
+    const fileText = await values.file.text();
+    const fileLines = fileText.split("\n");
+    console.log(fileLines);
   }
 
   return (
@@ -36,14 +40,25 @@ export function CSVForm() {
             <FormItem>
               <FormLabel>File</FormLabel>
               <FormControl>
-                <Input placeholder="file.csv" type="file" {...field} />
+                <Input
+                  {...field}
+                  placeholder="file.csv"
+                  type="file"
+                  accept=".csv"
+                  value={undefined}
+                  onChange={(e) => {
+                    field.onChange(e.target.files?.[0]);
+                  }}
+                />
               </FormControl>
               <FormDescription>
                 Upload a CSV file with times in a single column
               </FormDescription>
+              <FormMessage />
             </FormItem>
           )}
         />
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );
