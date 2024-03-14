@@ -13,6 +13,7 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { useTimeRecordsStore } from "@/hooks/useTimeRecordsStore";
 
 const formSchema = z.object({
   file: z.instanceof(File),
@@ -21,6 +22,7 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 export function CSVForm() {
+  const { setRecords } = useTimeRecordsStore();
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
   });
@@ -28,7 +30,10 @@ export function CSVForm() {
   async function onSubmit(values: FormSchema) {
     const fileText = await values.file.text();
     const fileLines = fileText.split("\n");
-    console.log(fileLines);
+
+    const timeRegex = /\d{2}:\d{2}:\d{2}/;
+    const validTimes = fileLines.filter((line) => timeRegex.test(line));
+    setRecords(validTimes);
   }
 
   return (
