@@ -1,4 +1,5 @@
 import { CSVForm } from "./components/partials/CSVForm";
+import { TimeRecordChart } from "./components/partials/TimeRecordChart";
 import { TimeRecordList } from "./components/partials/TimeRecordList";
 import { useTimeRecordsStore } from "./hooks/useTimeRecordsStore";
 
@@ -11,6 +12,7 @@ function App() {
       <p>Visualize your time records in a chart.</p>
       <CSVForm />
       {timeRecords && <TimeRecordList timeRecords={timeRecords} />}
+      {timeRecords && <TimeRecordChart timeRecords={timeRecords} />}
     </main>
   );
 }
