@@ -1,19 +1,31 @@
-import { stringToSeconds } from "./timeParser";
+type Category = {
+  time: number;
+  records: number[];
+};
 
 export const classifyTimeRecords = (
-  timeRecords: string[],
+  timeRecords: number[],
   interval: number
 ) => {
-  const classifiedTimeRecords: Map<string, number> = new Map();
+  const fastest = Math.floor(Math.min(...timeRecords) / interval);
+  const slowest = Math.floor(Math.max(...timeRecords) / interval);
+  const timeRecordsCategories: Category[] = [];
 
-  timeRecords.forEach((timeRecord) => {
-    const key = Math.floor(stringToSeconds(timeRecord) / interval).toString();
-    if (!classifiedTimeRecords.has(key)) {
-      classifiedTimeRecords.set(key, 1);
-    } else {
-      classifiedTimeRecords.set(key, (classifiedTimeRecords.get(key) ?? 1) + 1);
+  for (let i = fastest; i <= slowest; i += 1) {
+    timeRecordsCategories.push({ time: i, records: [] });
+  }
+
+  timeRecords.forEach((record) => {
+    const category = timeRecordsCategories.find(
+      (category) =>
+        record >= category.time * interval &&
+        record < category.time * interval + interval
+    );
+
+    if (category) {
+      category.records.push(record);
     }
   });
 
-  return classifiedTimeRecords;
+  return timeRecordsCategories;
 };

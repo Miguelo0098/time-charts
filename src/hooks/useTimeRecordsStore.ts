@@ -1,12 +1,12 @@
 import { create } from "zustand";
 
 type TimeRecordsStore = {
-  timeRecords?: string[];
-  setRecords: (records: string[]) => void;
+  timeRecords?: number[];
+  setRecords: (records: number[]) => void;
   clearRecords: () => void;
 };
 
 export const useTimeRecordsStore = create<TimeRecordsStore>()((set) => ({
-  setRecords: (records: string[]) => set({ timeRecords: records }),
+  setRecords: (records: number[]) => set({ timeRecords: records }),
   clearRecords: () => set({ timeRecords: [] }),
 }));

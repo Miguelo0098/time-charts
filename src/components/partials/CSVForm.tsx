@@ -14,6 +14,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useTimeRecordsStore } from "@/hooks/useTimeRecordsStore";
+import { stringToSeconds } from "@/utils/timeParser";
 
 const formSchema = z.object({
   file: z.instanceof(File),
@@ -33,8 +34,10 @@ export function CSVForm() {
     const fileLines = fileText.split("\n");
 
     const timeRegex = /\d{2}:[0-5]\d:[0-5]\d/;
-    const validTimes = fileLines.filter((line) => timeRegex.test(line));
-    setRecords(validTimes);
+    const validTimes = fileLines
+      .filter((line) => timeRegex.test(line))
+      .map((line) => line.match(timeRegex)![0]);
+    setRecords(validTimes.map(stringToSeconds).sort());
   }
 
   return (

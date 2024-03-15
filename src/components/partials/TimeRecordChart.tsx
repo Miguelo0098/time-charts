@@ -1,26 +1,35 @@
 import { classifyTimeRecords } from "@/utils/classifyTimeRecords";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import {
+  Bar,
+  BarChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 type Props = {
-  timeRecords: string[];
+  timeRecords: number[];
 };
 
 export function TimeRecordChart({ timeRecords }: Props) {
   const data = classifyTimeRecords(timeRecords, 60);
 
   return (
-    <Card className="w-[350px]">
+    <Card>
       <CardHeader>
         <CardTitle>Time Records</CardTitle>
       </CardHeader>
       <CardContent>
-        <ul>
-          {Array.from(data).map(([key, value]) => (
-            <li key={key}>
-              {key}: {value}
-            </li>
-          ))}
-        </ul>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={data}>
+            <XAxis dataKey="time" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="records.length" fill="#8884d8" />
+          </BarChart>
+        </ResponsiveContainer>
       </CardContent>
     </Card>
   );
