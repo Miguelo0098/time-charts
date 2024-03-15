@@ -6,11 +6,17 @@ function App() {
   const { timeRecords } = useTimeRecordsStore();
 
   return (
-    <main className="p-4">
-      <h1>Time chart</h1>
-      <p>Visualize your time records in a chart.</p>
-      <CSVForm />
-      {timeRecords && <TimeRecordChart timeRecords={timeRecords} />}
+    <main className="w-full p-4 flex flex-col items-center gap-y-4">
+      <h1 className="text-4xl font-bold">Time records</h1>
+      <p>Check time distribution between fastest and slowest records</p>
+      <section className="w-full max-w-[720px]">
+        <CSVForm />
+      </section>
+      {timeRecords && (
+        <section className="w-full max-w-[720px]">
+          <TimeRecordChart timeRecords={timeRecords} />
+        </section>
+      )}
     </main>
   );
 }

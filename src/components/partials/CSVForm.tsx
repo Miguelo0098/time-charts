@@ -41,9 +41,9 @@ export function CSVForm() {
   }
 
   return (
-    <Card className="w-[350px]">
+    <Card>
       <CardHeader>
-        <CardTitle>Upload a CSV file</CardTitle>
+        <CardTitle>Upload your time records</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
