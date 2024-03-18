@@ -8,7 +8,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { secondsToString } from "@/utils/timeParser";
 
 type Props = {
   timeRecords: number[];
@@ -30,7 +29,7 @@ export function TimeRecordChart({ timeRecords }: Props) {
             <XAxis dataKey="label" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="records.length" fill="#8884d8" />
+            <Bar name="records" dataKey="records.length" fill="#8884d8" />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
