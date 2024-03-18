@@ -1,6 +1,9 @@
+import { secondsToString } from "./timeParser";
+
 type Category = {
   time: number;
   records: number[];
+  label: string;
 };
 
 export const classifyTimeRecords = (
@@ -12,7 +15,11 @@ export const classifyTimeRecords = (
   const timeRecordsCategories: Category[] = [];
 
   for (let i = fastest; i <= slowest; i += 1) {
-    timeRecordsCategories.push({ time: i, records: [] });
+    timeRecordsCategories.push({
+      time: i,
+      records: [],
+      label: secondsToString(i * interval),
+    });
   }
 
   timeRecords.forEach((record) => {

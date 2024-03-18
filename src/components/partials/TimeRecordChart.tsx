@@ -8,13 +8,16 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { secondsToString } from "@/utils/timeParser";
 
 type Props = {
   timeRecords: number[];
 };
 
+const INTERVAL = 60;
+
 export function TimeRecordChart({ timeRecords }: Props) {
-  const data = classifyTimeRecords(timeRecords, 60);
+  const data = classifyTimeRecords(timeRecords, INTERVAL);
 
   return (
     <Card>
@@ -24,7 +27,7 @@ export function TimeRecordChart({ timeRecords }: Props) {
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={data}>
-            <XAxis dataKey="time" />
+            <XAxis dataKey="label" />
             <YAxis />
             <Tooltip />
             <Bar dataKey="records.length" fill="#8884d8" />
