@@ -11,12 +11,11 @@ import {
 
 type Props = {
   timeRecords: number[];
+  interval: number;
 };
 
-const INTERVAL = 60;
-
-export function TimeRecordChart({ timeRecords }: Props) {
-  const data = classifyTimeRecords(timeRecords, INTERVAL);
+export function TimeRecordChart({ timeRecords, interval }: Props) {
+  const data = classifyTimeRecords(timeRecords, interval);
 
   return (
     <Card>

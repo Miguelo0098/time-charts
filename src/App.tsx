@@ -3,7 +3,7 @@ import { TimeRecordChart } from "./components/partials/TimeRecordChart";
 import { useTimeRecordsStore } from "./hooks/useTimeRecordsStore";
 
 function App() {
-  const { timeRecords } = useTimeRecordsStore();
+  const { timeRecords, interval } = useTimeRecordsStore();
 
   return (
     <main className="w-full p-4 flex flex-col items-center gap-y-4">
@@ -14,7 +14,7 @@ function App() {
       </section>
       {timeRecords && (
         <section className="w-full max-w-[720px]">
-          <TimeRecordChart timeRecords={timeRecords} />
+          <TimeRecordChart timeRecords={timeRecords} interval={interval} />
         </section>
       )}
     </main>

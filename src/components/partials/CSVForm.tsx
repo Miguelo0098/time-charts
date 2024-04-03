@@ -15,15 +15,17 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useTimeRecordsStore } from "@/hooks/useTimeRecordsStore";
 import { stringToSeconds } from "@/utils/timeParser";
+import { DEFAULT_INTERVAL } from "@/constants/defaultInterval";
 
 const formSchema = z.object({
   file: z.instanceof(File),
+  interval: z.coerce.number().int().positive().default(DEFAULT_INTERVAL),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
 
 export function CSVForm() {
-  const { setRecords } = useTimeRecordsStore();
+  const { setRecords, setInterval } = useTimeRecordsStore();
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -38,6 +40,7 @@ export function CSVForm() {
       .filter((line) => timeRegex.test(line))
       .map((line) => line.match(timeRegex)![0]);
     setRecords(validTimes.map(stringToSeconds).sort());
+    setInterval(values.interval);
   }
 
   return (
@@ -69,6 +72,25 @@ export function CSVForm() {
                   <FormDescription>
                     Upload a CSV file with times in a single column
                   </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="interval"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Interval</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="number"
+                      placeholder={`${DEFAULT_INTERVAL}`}
+                      min={1}
+                    />
+                  </FormControl>
+                  <FormDescription>Interval in seconds</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
