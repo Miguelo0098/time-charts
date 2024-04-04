@@ -3,6 +3,8 @@ import { secondsToString } from "./timeParser";
 type Category = {
   time: number;
   records: number[];
+  upperLimit: string;
+  lowerLimit: string;
   label: string;
 };
 
@@ -15,10 +17,15 @@ export const classifyTimeRecords = (
   const timeRecordsCategories: Category[] = [];
 
   for (let i = fastest; i <= slowest; i += 1) {
+    const upperLimit = secondsToString(i * interval + interval - 1);
+    const lowerLimit = secondsToString(i * interval);
+
     timeRecordsCategories.push({
       time: i,
       records: [],
-      label: secondsToString(i * interval),
+      upperLimit,
+      lowerLimit,
+      label: `${lowerLimit} - ${upperLimit}`,
     });
   }
 
